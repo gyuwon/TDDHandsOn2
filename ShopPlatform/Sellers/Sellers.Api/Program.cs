@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Sellers;
@@ -11,6 +12,7 @@ public class Program
         IServiceCollection services = builder.Services;
 
         services.AddDbContext<SellersDbContext>(ConfigureDbContextOptions);
+        services.AddSingleton<IPasswordHasher<object>, PasswordHasher<object>>();
 
         services.AddControllers();
         services.AddEndpointsApiExplorer();
