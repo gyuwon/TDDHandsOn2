@@ -105,6 +105,7 @@ public sealed class OrdersController : Controller
         }
 
         order.Status = OrderStatus.Completed;
+        order.ShippedAtUtc = listenedEvent.EventTimeUtc;
         await context.SaveChangesAsync();
         return Ok();
     }
