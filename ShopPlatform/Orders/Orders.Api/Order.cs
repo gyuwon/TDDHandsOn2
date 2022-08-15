@@ -1,4 +1,6 @@
-﻿namespace Orders;
+﻿using System.Text.Json.Serialization;
+
+namespace Orders;
 
 #nullable disable
 
@@ -6,6 +8,7 @@ public sealed class Order
 {
     public Guid Id { get; set; }
 
+    [JsonIgnore]
     public long Sequence { get; set; }
 
     public Guid UserId { get; set; }
