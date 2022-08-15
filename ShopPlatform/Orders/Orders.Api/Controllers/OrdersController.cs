@@ -12,19 +12,14 @@ public sealed class OrdersController : Controller
     [Produces("application/json", Type = typeof(Order[]))]
     public async Task<IEnumerable<Order>> GetOrders(
         [FromQuery(Name = "user-id")] Guid? userId,
+        [FromQuery(Name = "shop-id")] Guid? shopId,
         [FromServices] OrdersDbContext context)
     {
-        if (userId == null)
-        {
-            return await context.Orders.AsNoTracking().ToListAsync();
-        }
-        else
-        {
-            return await context.Orders
-                .AsNoTracking()
-                .Where(x => x.UserId == userId)
-                .ToListAsync();
-        }
+        return await context.Orders
+            .AsNoTracking()
+            .FilterByUser(userId)
+            .FilterByShop(shopId)
+            .ToListAsync();
     }
 
     [HttpGet("{id}")]
