@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace Sellers;
 
 public class Program
@@ -7,6 +9,8 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         IServiceCollection services = builder.Services;
+
+        services.AddDbContext<SellersDbContext>(ConfigureDbContextOptions);
 
         services.AddControllers();
         services.AddEndpointsApiExplorer();
@@ -23,5 +27,13 @@ public class Program
         app.UseAuthorization();
         app.MapControllers();
         app.Run();
+    }
+
+    private static void ConfigureDbContextOptions(
+        IServiceProvider provider,
+        DbContextOptionsBuilder options)
+    {
+        IConfiguration config = provider.GetRequiredService<IConfiguration>();
+        options.UseNpgsql(config.GetConnectionString("DefaultConnection"));
     }
 }
