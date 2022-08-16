@@ -70,6 +70,11 @@ public sealed class OrdersController : Controller
             return NotFound();
         }
 
+        if (order.Status != OrderStatus.Pending)
+        {
+            return BadRequest();
+        }
+
         order.Status = OrderStatus.AwaitingPayment;
         order.StartedAtUtc = DateTime.UtcNow;
         await context.SaveChangesAsync();
@@ -90,6 +95,11 @@ public sealed class OrdersController : Controller
             return NotFound();
         }
 
+        if (order.Status != OrderStatus.AwaitingPayment)
+        {
+            return BadRequest();
+        }
+
         order.Status = OrderStatus.AwaitingShipment;
         order.PaidAtUtc = listenedEvent.EventTimeUtc;
         await context.SaveChangesAsync();
@@ -108,6 +118,11 @@ public sealed class OrdersController : Controller
         if (order == null)
         {
             return NotFound();
+        }
+
+        if (order.Status != OrderStatus.AwaitingShipment)
+        {
+            return BadRequest();
         }
 
         order.Status = OrderStatus.Completed;
