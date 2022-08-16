@@ -24,6 +24,7 @@ public sealed class OrdersDbContext : DbContext
         order.HasIndex(x => x.ShopId);
         order.Property(x => x.Status).HasConversion<string>();
         order.HasIndex(x => x.Status);
+        order.HasIndex(x => x.PaymentTransactionId);
     }
 }
 

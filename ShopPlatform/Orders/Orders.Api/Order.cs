@@ -21,6 +21,8 @@ public sealed class Order
 
     public OrderStatus Status { get; set; }
 
+    public string PaymentTransactionId { get; set; }
+
     public DateTime PlacedAtUtc { get; set; }
 
     public DateTime? StartedAtUtc { get; set; }
