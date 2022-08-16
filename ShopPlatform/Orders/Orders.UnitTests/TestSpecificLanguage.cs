@@ -24,10 +24,12 @@ internal static class TestSpecificLanguage
 
     public static Task<HttpResponseMessage> StartOrder(
         this OrdersServer server,
-        Guid orderId)
+        Guid orderId,
+        string? paymentTransactionId = null)
     {
         string uri = $"api/orders/{orderId}/start-order";
-        return server.CreateClient().PostAsJsonAsync(uri, new StartOrder());
+        StartOrder body = new(paymentTransactionId);
+        return server.CreateClient().PostAsJsonAsync(uri, body);
     }
 
     public static Task<HttpResponseMessage> HandleBankTransferPaymentCompleted(

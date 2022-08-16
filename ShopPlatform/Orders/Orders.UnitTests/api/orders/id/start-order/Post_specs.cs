@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using System.Net;
+using System.Net.Http.Json;
 using Xunit;
 
 namespace Orders.api.orders.id.start_order;
@@ -46,5 +47,21 @@ public class Post_specs
         HttpResponseMessage response = await server.StartOrder(orderId);
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task Sut_correctly_sets_transaction_id()
+    {
+        OrdersServer server = OrdersServer.Create();
+        Guid orderId = Guid.NewGuid();
+        await server.PlaceOrder(orderId);
+        string paymentTransactionId = $"{Guid.NewGuid()}";
+
+        await server.StartOrder(orderId, paymentTransactionId);
+
+        HttpClient client = server.CreateClient();
+        HttpResponseMessage response = await client.GetAsync($"api/orders/{orderId}");
+        Order? order = await response.Content.ReadFromJsonAsync<Order>();
+        order!.PaymentTransactionId.Should().Be(paymentTransactionId);
     }
 }

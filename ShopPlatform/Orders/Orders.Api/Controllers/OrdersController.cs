@@ -76,6 +76,7 @@ public sealed class OrdersController : Controller
         }
 
         order.Status = OrderStatus.AwaitingPayment;
+        order.PaymentTransactionId = command.PaymentTransactionId;
         order.StartedAtUtc = DateTime.UtcNow;
         await context.SaveChangesAsync();
         return Ok();
