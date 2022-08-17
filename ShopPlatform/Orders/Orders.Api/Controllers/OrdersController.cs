@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Orders.Commands;
 using Orders.Events;
+using Orders.Messaging;
 
 namespace Orders.Controllers;
 
@@ -130,5 +131,14 @@ public sealed class OrdersController : Controller
         order.ShippedAtUtc = listenedEvent.EventTimeUtc;
         await context.SaveChangesAsync();
         return Ok();
+    }
+
+    [HttpPost("accept/payment-approved")]
+    public async Task<IActionResult> AcceptPaymentApproved(
+        [FromBody] ExternalPaymentApproved externalEvent,
+        [FromServices] IBus<PaymentApproved> bus)
+    {
+        await bus.Send(new(externalEvent.tid, externalEvent.approved_at));
+        return Accepted();
     }
 }

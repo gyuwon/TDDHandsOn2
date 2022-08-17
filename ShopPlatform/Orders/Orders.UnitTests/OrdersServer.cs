@@ -13,6 +13,12 @@ public sealed class OrdersServer : TestServer
 {
     private const string ConnectionString = "Server=127.0.0.1;Port=5432;Database=Orders_UnitTests;User Id=postgres;Password=mysecretpassword;";
 
+    private static readonly Dictionary<string, string> TestSettings = new()
+    {
+        ["ConnectionStrings:DefaultConnection"] = ConnectionString,
+        ["Storage:Queues:PaymentApproved"] = "payment-approved-unittests",
+    };
+
     public OrdersServer(
         IServiceProvider services,
         IOptions<TestServerOptions> optionsAccessor)
@@ -45,10 +51,7 @@ public sealed class OrdersServer : TestServer
 
             builder.ConfigureAppConfiguration((context, config) =>
             {
-                config.AddInMemoryCollection(new Dictionary<string, string>
-                {
-                    ["ConnectionStrings:DefaultConnection"] = ConnectionString,
-                });
+                config.AddInMemoryCollection(TestSettings);
             });
 
             return base.CreateHost(builder);
