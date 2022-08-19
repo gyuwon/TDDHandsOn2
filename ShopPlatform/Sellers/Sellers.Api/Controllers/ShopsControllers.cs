@@ -36,7 +36,7 @@ public sealed class ShopsControllers : Controller
     {
         return await context.Shops.FindShop(id) switch
         {
-            Shop shop => Ok(shop),
+            Shop shop => Ok(new ShopView(shop.Id, shop.Name)),
             null => NotFound(),
         };
     }
