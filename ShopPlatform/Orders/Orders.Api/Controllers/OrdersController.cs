@@ -28,13 +28,19 @@ public sealed class OrdersController : Controller
     [ProducesResponseType(404)]
     public async Task<IActionResult> FindOrder(
         Guid id,
-        [FromServices] OrdersDbContext context)
+        [FromServices] OrdersDbContext context,
+        [FromServices] SellersService service)
     {
-        return await context.Orders.FindOrder(id) switch
+        if (await context.Orders.FindOrder(id) is Order order)
         {
-            Order order => Ok(order),
-            null => NotFound(),
-        };
+            Shop shop = await service.GetShop(order.ShopId);
+            order.ShopName = shop.Name;
+            return Ok(order);
+        }
+        else
+        {
+            return NotFound();
+        }
     }
 
     [HttpPost("{id}/place-order")]

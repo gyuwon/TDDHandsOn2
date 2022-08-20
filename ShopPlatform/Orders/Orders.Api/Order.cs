@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Orders;
 
@@ -14,6 +15,9 @@ public sealed class Order
     public Guid UserId { get; set; }
 
     public Guid ShopId { get; set; }
+
+    [NotMapped]
+    public string ShopName { get; set; }
 
     public Guid ItemId { get; set; }
 

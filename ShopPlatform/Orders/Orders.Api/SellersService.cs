@@ -15,4 +15,11 @@ public sealed class SellersService
             _ => null,
         };
     }
+
+    public async Task<Shop> GetShop(Guid id)
+    {
+        HttpResponseMessage response = await client.GetAsync($"api/shops/{id}");
+        HttpContent content = response.EnsureSuccessStatusCode().Content;
+        return (await content.ReadFromJsonAsync<Shop>())!;
+    }
 }

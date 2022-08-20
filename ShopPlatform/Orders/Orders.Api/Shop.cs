@@ -1,3 +1,3 @@
 ﻿namespace Orders;
 
-public sealed record Shop(Guid Id);
+public sealed record Shop(Guid Id, string Name);

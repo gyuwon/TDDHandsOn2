@@ -72,4 +72,14 @@ internal static class TestSpecificLanguage
         HttpResponseMessage response = await client.PostAsJsonAsync(uri, body);
         return (await response.Content.ReadFromJsonAsync<ShopView>())!;
     }
+
+    public static async Task<ShopView> GetShop(
+        this SellersServer server,
+        Guid id)
+    {
+        string uri = $"api/shops/{id}";
+        HttpResponseMessage response = await server.CreateClient().GetAsync(uri);
+        HttpContent contnet = response.EnsureSuccessStatusCode().Content;
+        return (await contnet.ReadFromJsonAsync<ShopView>())!;
+    }
 }
