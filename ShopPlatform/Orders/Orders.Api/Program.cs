@@ -14,6 +14,7 @@ public class Program
         IServiceCollection services = builder.Services;
 
         services.AddDbContext<OrdersDbContext>(ConfigureDbContextOptions);
+        services.AddHttpClient<SellersService>(ConfigureSellersClient);
 
         services.AddSingleton(provider => new StorageQueueBus(GetQueueClient(provider)));
         services.AddSingleton<IBus<PaymentApproved>>(GetQueueBus);
@@ -45,6 +46,14 @@ public class Program
     {
         IConfiguration config = provider.GetRequiredService<IConfiguration>();
         options.UseNpgsql(config.GetConnectionString("DefaultConnection"));
+    }
+
+    private static void ConfigureSellersClient(
+        IServiceProvider provider,
+        HttpClient client)
+    {
+        IConfiguration config = provider.GetRequiredService<IConfiguration>();
+        client.BaseAddress = new Uri(config["Sellers:Host"]);
     }
 
     private static QueueClient GetQueueClient(IServiceProvider provider)
