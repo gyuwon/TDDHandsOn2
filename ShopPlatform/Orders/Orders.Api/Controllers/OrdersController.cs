@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Orders.Commands;
 using Orders.Events;
 using Orders.Messaging;
+using Sellers;
 
 namespace Orders.Controllers;
 
@@ -33,7 +34,7 @@ public sealed class OrdersController : Controller
     {
         if (await context.Orders.FindOrder(id) is Order order)
         {
-            Shop shop = await service.GetShop(order.ShopId);
+            ShopView shop = await service.GetShop(order.ShopId);
             order.ShopName = shop.Name;
             return Ok(order);
         }
