@@ -9,10 +9,15 @@ public class UsersController : Controller
     [HttpPost("verify-password")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
-    public IActionResult VerifyPassword(
+    public async Task<IActionResult> VerifyPassword(
         [FromBody] Credentials credentials,
         [FromServices] PasswordVerifier verifier)
     {
-        return Ok();
+        (string username, string password) = credentials;
+        return await verifier.VerifyPassword(username, password) switch
+        {
+            true => Ok(),
+            _ => BadRequest(),
+        };
     }
 }

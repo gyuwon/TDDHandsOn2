@@ -64,15 +64,6 @@ internal static class TestSpecificLanguage
     public static SellersServer GetSellersServer(this OrdersServer server)
         => server.Services.GetRequiredService<SellersServer>();
 
-    public static async Task<ShopView> CreateShop(this SellersServer server)
-    {
-        HttpClient client = server.CreateClient();
-        string uri = "api/shops";
-        var body = new { Name = $"{Guid.NewGuid()}" };
-        HttpResponseMessage response = await client.PostAsJsonAsync(uri, body);
-        return (await response.Content.ReadFromJsonAsync<ShopView>())!;
-    }
-
     public static async Task<ShopView> GetShop(
         this SellersServer server,
         Guid id)
