@@ -14,7 +14,7 @@ public class Program
 
         services.AddDbContext<SellersDbContext>(ConfigureDbContextOptions);
         services.AddSingleton(GetDbContextFactory);
-        services.AddSingleton<IUserReader, ShopUserReader>();
+        services.AddSingleton<IUserReader, BackwardCompatibleUserReader>();
 
         services.AddSingleton<IPasswordHasher<object>, PasswordHasher<object>>();
         services.AddSingleton<PasswordHasher<object>>();
