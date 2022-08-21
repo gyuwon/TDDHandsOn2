@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Sellers.Commands;
 using Sellers.QueryModel;
 
 namespace Sellers.Controllers;
@@ -19,5 +20,12 @@ public class UsersController : Controller
             true => Ok(),
             _ => BadRequest(),
         };
+    }
+
+    [HttpPost("{id}/create-user")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    public void CreateUser(Guid id, [FromBody] CreateUser command)
+    {
     }
 }
