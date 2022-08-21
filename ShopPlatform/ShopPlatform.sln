@@ -19,9 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sellers.Testing", "Sellers\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sellers.Contracts", "Sellers\Sellers.Contracts\Sellers.Contracts.csproj", "{DD0F3E18-B774-40B8-8D54-E35AE48842F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sellers.DomainModel", "Sellers\Sellers.DomainModel\Sellers.DomainModel.csproj", "{B268ACFB-BFA2-481A-8FB5-B66E9A7180FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sellers.DomainModel", "Sellers\Sellers.DomainModel\Sellers.DomainModel.csproj", "{B268ACFB-BFA2-481A-8FB5-B66E9A7180FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sellers.Sql", "Sellers\Sellers.Sql\Sellers.Sql.csproj", "{31185376-4989-4870-8822-09728B4C7905}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sellers.Sql", "Sellers\Sellers.Sql\Sellers.Sql.csproj", "{31185376-4989-4870-8822-09728B4C7905}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sellers.Crypto", "Sellers\Sellers.Crypto\Sellers.Crypto.csproj", "{91BD80B0-50B1-4F38-8050-A8E807427B9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{31185376-4989-4870-8822-09728B4C7905}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31185376-4989-4870-8822-09728B4C7905}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31185376-4989-4870-8822-09728B4C7905}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91BD80B0-50B1-4F38-8050-A8E807427B9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91BD80B0-50B1-4F38-8050-A8E807427B9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91BD80B0-50B1-4F38-8050-A8E807427B9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91BD80B0-50B1-4F38-8050-A8E807427B9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{DD0F3E18-B774-40B8-8D54-E35AE48842F6} = {C5D2AED1-52B4-40FB-A4AF-83AD40DECEBB}
 		{B268ACFB-BFA2-481A-8FB5-B66E9A7180FC} = {C5D2AED1-52B4-40FB-A4AF-83AD40DECEBB}
 		{31185376-4989-4870-8822-09728B4C7905} = {C5D2AED1-52B4-40FB-A4AF-83AD40DECEBB}
+		{91BD80B0-50B1-4F38-8050-A8E807427B9C} = {C5D2AED1-52B4-40FB-A4AF-83AD40DECEBB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7CC5FAC9-580D-44E4-9E09-EC36B4311EB9}

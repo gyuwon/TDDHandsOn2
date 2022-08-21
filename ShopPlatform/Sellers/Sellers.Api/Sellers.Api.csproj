@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Sellers.Crypto\Sellers.Crypto.csproj" />
     <ProjectReference Include="..\Sellers.Sql\Sellers.Sql.csproj" />
   </ItemGroup>
 
