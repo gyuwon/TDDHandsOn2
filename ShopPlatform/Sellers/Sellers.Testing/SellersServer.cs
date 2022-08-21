@@ -11,8 +11,6 @@ namespace Sellers;
 
 public sealed class SellersServer : TestServer
 {
-    private const string ConnectionString = "Server=127.0.0.1;Port=5432;Database=Sellers_UnitTests;User Id=postgres;Password=mysecretpassword;";
-
     public SellersServer(
         IServiceProvider services,
         IOptions<TestServerOptions> optionsAccessor)
@@ -20,7 +18,8 @@ public sealed class SellersServer : TestServer
     {
     }
 
-    public static SellersServer Create(string connectionString = ConnectionString)
+    public static SellersServer Create(
+        string connectionString = SellersDatabase.DefaultConnectionString)
     {
         SellersServer server = (SellersServer)new Factory(connectionString).Server;
 

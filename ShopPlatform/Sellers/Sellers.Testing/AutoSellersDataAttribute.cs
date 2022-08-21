@@ -10,6 +10,7 @@ public class AutoSellersDataAttribute : AutoDataAttribute
             new CompositeCustomization(
                 new ShopCustomization(),
                 new PasswordHasherCustomization(),
+                new SellersDbContextCustomization(),
                 new SellersServerCustomization())))
     {
     }
