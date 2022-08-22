@@ -20,9 +20,9 @@ public sealed class SellersServer : TestServer
     {
     }
 
-    public static SellersServer Create()
+    public static SellersServer Create(string connectionString = ConnectionString)
     {
-        SellersServer server = (SellersServer)new Factory().Server;
+        SellersServer server = (SellersServer)new Factory(connectionString).Server;
 
         lock (typeof(SellersDbContext))
         {
@@ -36,6 +36,11 @@ public sealed class SellersServer : TestServer
 
     private sealed class Factory : WebApplicationFactory<Program>
     {
+        private readonly string connectionString;
+
+        public Factory(string connectionString)
+            => this.connectionString = connectionString;
+
         protected override IHost CreateHost(IHostBuilder builder)
         {
             builder.ConfigureServices(services =>
@@ -47,7 +52,7 @@ public sealed class SellersServer : TestServer
             {
                 config.AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    ["ConnectionStrings:DefaultConnection"] = ConnectionString,
+                    ["ConnectionStrings:DefaultConnection"] = connectionString,
                 });
             });
 
