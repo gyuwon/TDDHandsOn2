@@ -35,4 +35,11 @@ public class UsersController : Controller
     {
         return executor.Execute(id, command);
     }
+
+    [HttpGet("{id}/roles")]
+    [ProducesResponseType(200, Type = typeof(Role[]))]
+    [ProducesResponseType(404)]
+    public void GetRoles(Guid id)
+    {
+    }
 }
