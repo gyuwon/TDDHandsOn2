@@ -7,21 +7,14 @@ namespace Sellers.api.shops.id;
 
 public class Get_specs
 {
-    [Fact]
-    public async Task Sut_does_not_expose_user_credentials()
+    [Theory, AutoSellersData]
+    public async Task Sut_does_not_expose_user_credentials(
+        SellersServer server,
+        Shop shop)
     {
         // Arrange
-        SellersServer server = SellersServer.Create();
-
         IServiceScope scope = server.Services.CreateScope();
         SellersDbContext context = scope.ServiceProvider.GetRequiredService<SellersDbContext>();
-        Shop shop = new()
-        {
-            Id = Guid.NewGuid(),
-            Name = $"{Guid.NewGuid()}",
-            UserId = $"{Guid.NewGuid()}",
-            PasswordHash = $"{Guid.NewGuid()}",
-        };
         context.Shops.Add(shop);
         await context.SaveChangesAsync();
 
