@@ -11,10 +11,20 @@ public sealed class SellersDbContext : DbContext
     {
     }
 
+    public DbSet<UserEntity> Users { get; set; }
+
     public DbSet<Shop> Shops { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<UserEntity>(user =>
+        {
+            user.HasKey(x => x.Sequence);
+            user.Property(x => x.Sequence).ValueGeneratedOnAdd();
+            user.HasIndex(x => x.Id).IsUnique();
+            user.HasIndex(x => x.Username).IsUnique();
+        });
+
         modelBuilder.Entity<Shop>(shop =>
         {
             shop.HasKey(x => x.Sequence);
