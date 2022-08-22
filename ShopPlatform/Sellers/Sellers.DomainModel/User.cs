@@ -1,3 +1,9 @@
-﻿namespace Sellers;
+﻿using System.Collections.Immutable;
 
-public sealed record User(Guid Id, string Username, string PasswordHash);
+namespace Sellers;
+
+public sealed record User(
+    Guid Id,
+    string Username,
+    string PasswordHash,
+    ImmutableArray<Role> Roles);

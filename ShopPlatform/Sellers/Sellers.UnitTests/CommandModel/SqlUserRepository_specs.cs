@@ -17,6 +17,6 @@ public class SqlUserRepository_specs
 
         using SellersDbContext context = contextFactory.Invoke();
         UserEntity? actual = await context.Users.SingleOrDefaultAsync(x => x.Id == user.Id);
-        actual.Should().BeEquivalentTo(user);
+        actual.Should().BeEquivalentTo(user, c => c.ExcludingMissingMembers());
     }
 }

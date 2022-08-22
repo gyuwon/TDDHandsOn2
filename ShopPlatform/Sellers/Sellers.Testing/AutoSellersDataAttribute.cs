@@ -9,6 +9,7 @@ public class AutoSellersDataAttribute : AutoDataAttribute
         : base(() => new Fixture().Customize(
             new CompositeCustomization(
                 new UserCustomization(),
+                new RoleCustomization(),
                 new ShopCustomization(),
                 new PasswordHasherCustomization(),
                 new SellersDbContextCustomization(),

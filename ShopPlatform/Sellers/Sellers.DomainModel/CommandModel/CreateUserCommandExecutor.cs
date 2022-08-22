@@ -1,5 +1,6 @@
 ﻿using Sellers.Commands;
 using Sellers.QueryModel;
+using System.Collections.Immutable;
 
 namespace Sellers.CommandModel;
 
@@ -36,6 +37,7 @@ public sealed class CreateUserCommandExecutor
     private Task AddUser(Guid id, CreateUser command)
     {
         string passwordHash = hasher.HashPassword(command.Password);
-        return repository.Add(new User(id, command.Username, passwordHash));
+        ImmutableArray<Role> roles = ImmutableArray<Role>.Empty;
+        return repository.Add(new(id, command.Username, passwordHash, roles));
     }
 }
