@@ -23,9 +23,14 @@ public sealed class OrdersServer : TestServer
     public static OrdersServer Create()
     {
         OrdersServer server = (OrdersServer)new Factory().Server;
-        using IServiceScope scope = server.Services.CreateScope();
-        OrdersDbContext context = scope.ServiceProvider.GetRequiredService<OrdersDbContext>();
-        context.Database.Migrate();
+
+        lock (typeof(OrdersDbContext))
+        {
+            using IServiceScope scope = server.Services.CreateScope();
+            OrdersDbContext context = scope.ServiceProvider.GetRequiredService<OrdersDbContext>();
+            context.Database.Migrate();
+        }
+
         return server;
     }
 
