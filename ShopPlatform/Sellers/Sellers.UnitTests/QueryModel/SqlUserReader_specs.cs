@@ -29,4 +29,28 @@ public class SqlUserReader_specs
         User? actual = await sut.FindUser(username);
         actual.Should().BeNull();
     }
+
+    [Theory, AutoSellersData]
+    public async Task Sut_returns_user_with_matching_id(
+        [Frozen] Func<SellersDbContext> contextFactory,
+        SqlUserReader sut,
+        UserEntity user)
+    {
+        using SellersDbContext context = contextFactory.Invoke();
+        context.Add(user);
+        await context.SaveChangesAsync();
+
+        User? actual = await sut.FindUser(user.Id);
+
+        actual.Should().BeEquivalentTo(user, c => c.ExcludingMissingMembers());
+    }
+
+    [Theory, AutoSellersData]
+    public async Task Sut_returns_null_for_unknown_id(
+        SqlUserReader sut,
+        Guid id)
+    {
+        User? actual = await sut.FindUser(id);
+        actual.Should().BeNull();
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Immutable;
+using System.Linq.Expressions;
 
 namespace Sellers.QueryModel;
 
@@ -10,22 +11,28 @@ public sealed class SqlUserReader : IUserReader
     public SqlUserReader(Func<SellersDbContext> contextFactory)
         => this.contextFactory = contextFactory;
 
-    public async Task<User?> FindUser(string username)
+    public Task<User?> FindUser(Guid id)
+        => FindUser(x => x.Id == id);
+
+    public Task<User?> FindUser(string username)
+        => FindUser(x => x.Username == username);
+
+    private async Task<User?> FindUser(
+        Expression<Func<UserEntity, bool>> predicate)
     {
         using SellersDbContext context = contextFactory.Invoke();
 
-        IQueryable<UserEntity> query =
-            from x in context.Users.AsNoTracking()
-            where x.Username == username
-            select x;
+        IQueryable<UserEntity> query = context.Users
+            .AsNoTracking()
+            .Where(predicate);
 
         return await query.SingleOrDefaultAsync() switch
         {
-            UserEntity user => new User(
-                user.Id,
-                user.Username,
-                user.PasswordHash,
-                ImmutableArray<Role>.Empty),
+            UserEntity entity => new User(
+                entity.Id,
+                entity.Username,
+                entity.PasswordHash,
+                Roles: ImmutableArray<Role>.Empty),
             null => null,
         };
     }
