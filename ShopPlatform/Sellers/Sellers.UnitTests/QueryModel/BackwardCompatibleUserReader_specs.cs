@@ -50,4 +50,19 @@ public class BackwardCompatibleUserReader_specs
         User? actual = await sut.FindUser(username);
         actual.Should().BeNull();
     }
+
+    [Theory, AutoSellersData]
+    public async Task Sut_returns_correct_entity_with_id_from_user_model(
+        [Frozen] Func<SellersDbContext> contextFactory,
+        BackwardCompatibleUserReader sut,
+        UserEntity user)
+    {
+        using SellersDbContext context = contextFactory.Invoke();
+        context.Users.Add(user);
+        await context.SaveChangesAsync();
+
+        User? actual = await sut.FindUser(user.Id);
+
+        actual.Should().BeEquivalentTo(user, c => c.ExcludingMissingMembers());
+    }
 }
