@@ -1,5 +1,6 @@
 ﻿using AutoFixture.Xunit2;
 using FluentAssertions;
+using System.Collections.Immutable;
 using Xunit;
 
 namespace Sellers.QueryModel;
@@ -63,5 +64,22 @@ public class ShopUserReader_specs
             Username = shop.UserId,
             shop.PasswordHash,
         }, c => c.ExcludingMissingMembers());
+    }
+
+    [Theory, AutoSellersData]
+    public async Task Sut_correctly_sets_roles(
+        [Frozen] Func<SellersDbContext> contextFactory,
+        ShopUserReader sut,
+        Shop shop)
+    {
+        using SellersDbContext context = contextFactory.Invoke();
+        context.Shops.Add(shop);
+        await context.SaveChangesAsync();
+
+        User? user = await sut.FindUser(id: shop.Id);
+        ImmutableArray<Role> actual = user!.Roles;
+
+        Role role = new(shop.Id, RoleName: "Administrator");
+        actual.Should().BeEquivalentTo(new[] { role });
     }
 }
