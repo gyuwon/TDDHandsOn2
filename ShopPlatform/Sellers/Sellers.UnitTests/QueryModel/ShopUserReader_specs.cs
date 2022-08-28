@@ -44,4 +44,24 @@ public class ShopUserReader_specs
         User? actual = await sut.FindUser(username);
         actual.Should().BeNull();
     }
+
+    [Theory, AutoSellersData]
+    public async Task Sut_returns_user_with_matching_id(
+        [Frozen] Func<SellersDbContext> contextFactory,
+        ShopUserReader sut,
+        Shop shop)
+    {
+        using SellersDbContext context = contextFactory.Invoke();
+        context.Shops.Add(shop);
+        await context.SaveChangesAsync();
+
+        User? actual = await sut.FindUser(id: shop.Id);
+
+        actual.Should().BeEquivalentTo(new
+        {
+            Id = shop.Id,
+            Username = shop.UserId,
+            shop.PasswordHash,
+        }, c => c.ExcludingMissingMembers());
+    }
 }
