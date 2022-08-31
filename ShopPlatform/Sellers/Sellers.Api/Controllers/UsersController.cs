@@ -39,7 +39,14 @@ public class UsersController : Controller
     [HttpGet("{id}/roles")]
     [ProducesResponseType(200, Type = typeof(Role[]))]
     [ProducesResponseType(404)]
-    public void GetRoles(Guid id)
+    public async Task<IActionResult> GetRoles(
+        Guid id,
+        [FromServices] IUserReader reader)
     {
+        return await reader.FindUser(id) switch
+        {
+            User user => Ok(user.Roles),
+            _ => NotFound()
+        };
     }
 }
