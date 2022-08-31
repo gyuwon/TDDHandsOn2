@@ -9,6 +9,7 @@ public sealed class UserCustomization : ICustomization
         ICustomization customization = fixture
             .Build<UserEntity>()
             .Without(x => x.Sequence)
+            .With(x => x.Roles, new List<RoleEntity>())
             .ToCustomization();
 
         fixture.Customize(customization);

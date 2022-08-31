@@ -14,6 +14,8 @@ public sealed class UserEntity
     public string Username { get; set; }
 
     public string PasswordHash { get; set; }
+
+    public List<RoleEntity> Roles { get; set; } = new();
 }
 
 #nullable enable

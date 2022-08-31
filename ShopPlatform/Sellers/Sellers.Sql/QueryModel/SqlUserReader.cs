@@ -26,13 +26,15 @@ public sealed class SqlUserReader : IUserReader
             .AsNoTracking()
             .Where(predicate);
 
-        return await query.SingleOrDefaultAsync() switch
+        return await query.Include(x => x.Roles).SingleOrDefaultAsync() switch
         {
             UserEntity entity => new User(
                 entity.Id,
                 entity.Username,
                 entity.PasswordHash,
-                Roles: ImmutableArray<Role>.Empty),
+                Roles: ImmutableArray.CreateRange(
+                    from x in entity.Roles
+                    select new Role(x.ShopId, x.RoleName))),
             null => null,
         };
     }
