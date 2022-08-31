@@ -13,6 +13,8 @@ public sealed class SellersDbContext : DbContext
 
     public DbSet<UserEntity> Users { get; set; }
 
+    public DbSet<RoleEntity> Roles { get; set; }
+
     public DbSet<Shop> Shops { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,6 +25,11 @@ public sealed class SellersDbContext : DbContext
             user.Property(x => x.Sequence).ValueGeneratedOnAdd();
             user.HasIndex(x => x.Id).IsUnique();
             user.HasIndex(x => x.Username).IsUnique();
+        });
+
+        modelBuilder.Entity<RoleEntity>(role =>
+        {
+            role.HasKey(x => new { x.UserSequence, x.ShopId, x.RoleName });
         });
 
         modelBuilder.Entity<Shop>(shop =>
