@@ -1,3 +1,7 @@
 .vs
 bin
 obj
+.vscode
+.idea
+.gradle
+build
