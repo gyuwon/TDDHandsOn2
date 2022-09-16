@@ -23,10 +23,20 @@ public class OrderViewAggregator {
                         map.computeIfAbsent(x.getShopId(), this::getShop),
                         x.getItemId(),
                         x.getPrice(),
-                        x.getStatus(),
+                        localizeStatus(x.getStatus()),
                         x.getPaymentTransactionId(),
                         x.getPlacedAtUtc()))
                 .toList();
+    }
+
+    private static String localizeStatus(String status) {
+        return switch (status) {
+            case "Pending" -> "보류";
+            case "AwaitingPayment" -> "결제대기";
+            case "AwaitingShipment" -> "배송대기";
+            case "Completed" -> "완료";
+            default -> status;
+        };
     }
 
     private Shop getShop(UUID shopId) {

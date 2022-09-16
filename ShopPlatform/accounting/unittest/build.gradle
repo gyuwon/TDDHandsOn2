@@ -13,6 +13,7 @@ repositories {
 dependencies {
     testImplementation(project(":accounting:api"))
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.github.javaunit:autoparams:0.3.3'
 }
 
 tasks.named('bootJar') {
