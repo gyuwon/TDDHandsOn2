@@ -41,6 +41,9 @@ public sealed class SellersDbContext : DbContext
             shop.HasIndex(x => x.UserId).IsUnique();
         });
     }
+
+    internal Task<UserEntity> FindUser(Guid id)
+        => Users.Include(x => x.Roles).SingleOrDefaultAsync(x => x.Id == id);
 }
 
 #nullable enable

@@ -36,4 +36,78 @@ public class SqlUserRepository_specs
         User actual = (await reader.FindUser(user.Id))!;
         actual.Roles.Should().BeEquivalentTo(user.Roles);
     }
+
+    [Theory, AutoSellersData]
+    public async Task TryUpdate_returns_true_if_entity_exists(
+        SqlUserRepository sut,
+        User user)
+    {
+        await sut.Add(user);
+        bool actual = await sut.TryUpdate(user.Id, x => x);
+        actual.Should().BeTrue();
+    }
+
+    [Theory, AutoSellersData]
+    public async Task TryUpdate_correctly_restores_user(
+        SqlUserRepository sut,
+        User user)
+    {
+        await sut.Add(user);
+        User? actual = null;
+
+        await sut.TryUpdate(user.Id, x => actual = x);
+
+        actual.Should().BeEquivalentTo(user);
+    }
+
+    [Theory, AutoSellersData]
+    public async Task TryUpdate_correctly_changes_username(
+        [Frozen] Func<SellersDbContext> contextFactory,
+        SqlUserRepository sut,
+        User user,
+        string newValue)
+    {
+        await sut.Add(user);
+
+        await sut.TryUpdate(user.Id, x => x with { Username = newValue });
+
+        SqlUserReader reader = new(contextFactory);
+        User actual = (await reader.FindUser(user.Id))!;
+        actual.Username.Should().Be(newValue);
+    }
+
+    [Theory, AutoSellersData]
+    public async Task TryUpdate_correctly_changes_password_hash(
+        [Frozen] Func<SellersDbContext> contextFactory,
+        SqlUserRepository sut,
+        User user,
+        string newValue)
+    {
+        await sut.Add(user);
+
+        await sut.TryUpdate(user.Id, x => x with { PasswordHash = newValue });
+
+        SqlUserReader reader = new(contextFactory);
+        User actual = (await reader.FindUser(user.Id))!;
+        actual.PasswordHash.Should().Be(newValue);
+    }
+
+    [Theory, AutoSellersData]
+    public async Task TryUpdate_correctly_changes_roles(
+        [Frozen] Func<SellersDbContext> contextFactory,
+        SqlUserRepository sut,
+        User user,
+        Role newRole)
+    {
+        await sut.Add(user);
+
+        await sut.TryUpdate(user.Id, x => x with
+        {
+            Roles = x.Roles.Add(newRole),
+        });
+
+        SqlUserReader reader = new(contextFactory);
+        User actual = (await reader.FindUser(user.Id))!;
+        actual.Roles.Should().Contain(user.Roles).And.Contain(newRole);
+    }
 }
