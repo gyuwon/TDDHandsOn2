@@ -1,7 +1,15 @@
-﻿namespace Sellers.CommandModel;
+﻿using AutoMapper;
+
+namespace Sellers.CommandModel;
 
 public sealed class SqlUserRepository : IUserRepository
 {
+    private static readonly IMapper mapper = new MapperConfiguration(c =>
+    {
+        c.CreateMap<Role, RoleEntity>();
+        c.CreateMap<User, UserEntity>();
+    }).CreateMapper();
+
     private readonly Func<SellersDbContext> contextFactory;
 
     public SqlUserRepository(Func<SellersDbContext> contextFactory)
@@ -10,12 +18,7 @@ public sealed class SqlUserRepository : IUserRepository
     public async Task Add(User user)
     {
         using SellersDbContext context = contextFactory.Invoke();
-        context.Users.Add(new UserEntity
-        {
-            Id = user.Id,
-            Username = user.Username,
-            PasswordHash = user.PasswordHash,
-        });
+        context.Users.Add(mapper.Map<UserEntity>(user));
         await context.SaveChangesAsync();
     }
 }
