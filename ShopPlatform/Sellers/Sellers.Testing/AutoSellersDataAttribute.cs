@@ -13,6 +13,7 @@ public class AutoSellersDataAttribute : AutoDataAttribute
                 new ShopCustomization(),
                 new PasswordHasherCustomization(),
                 new SellersDbContextCustomization(),
+                new UserRepositoryCustomization(),
                 new SellersServerCustomization())))
     {
     }
