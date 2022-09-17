@@ -49,4 +49,24 @@ public class UsersController : Controller
             _ => NotFound()
         };
     }
+
+    [HttpPost("{id}/grant-role")]
+    [ProducesResponseType(200)]
+    public Task GrantRole(
+        Guid id,
+        [FromBody] GrantRole command,
+        [FromServices] GrantRoleCommandExecutor executor)
+    {
+        return executor.Execute(id, command);
+    }
+
+    [HttpPost("{id}/revoke-role")]
+    [ProducesResponseType(200)]
+    public Task RevokeRole(
+        Guid id,
+        [FromBody] RevokeRole command,
+        [FromServices] RevokeRoleCommandExecutor executor)
+    {
+        return executor.Execute(id, command);
+    }
 }
