@@ -17,4 +17,10 @@ public sealed record User(
             Roles = Roles.Add(role),
         };
     }
+
+    internal User RevokeRole(RevokeRole command)
+    {
+        Role role = new(command.ShopId, command.RoleName);
+        return this with { Roles = Roles.Remove(role) };
+    }
 }
