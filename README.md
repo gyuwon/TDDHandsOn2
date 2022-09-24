@@ -34,3 +34,54 @@ TDD 또는 강의와 관련된 질문과 토론을 위해 Discord 서버를 만�
 | 3. 모델 정제 | [`3-3`](../../tree/3-3) |
 | 4. 모델 통합 | [`3-4`](../../tree/3-4) |
 | 5. 모델 확장 | [`3-5`](../../tree/3-5) |
+
+## 개발 환경
+
+### Docker
+
+https://docs.docker.com/get-docker/
+
+### 데이터베이스
+
+PostgreSQL을 데이터베이스로 사용합니다.
+
+https://hub.docker.com/_/postgres
+
+```text
+docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+```
+
+### Azure Storage Queue
+
+메시지 중개자로 Azure Storage Queue를 사용합니다.
+
+https://hub.docker.com/_/microsoft-azure-storage-azurite
+
+```text
+docker run --name azurite -p 10000:10000 -p 10001:10001 -p 10002:10002 mcr.microsoft.com/azure-storage/azurite
+```
+
+### Java 17 및 빌드 도구
+
+- https://www.oracle.com/java/technologies/downloads/#java17
+- https://gradle.org/install/
+
+### .NET 6
+
+https://dotnet.microsoft.com/en-us/download/dotnet/6.0
+
+### IDE 또는 편집기
+
+#### Windows
+
+- [Visual Studio Community](https://visualstudio.microsoft.com/vs/community/)
+- [IntelliJ IDEA Community](https://www.jetbrains.com/idea/download/)
+
+#### Mac
+
+- [Visual Studio Code](https://code.visualstudio.com/download)
+
+##### Visual Studio Code 확장
+
+- [C# for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
+- [Extension Pack for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
