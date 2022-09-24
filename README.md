@@ -85,3 +85,23 @@ https://dotnet.microsoft.com/en-us/download/dotnet/6.0
 
 - [C# for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
 - [Extension Pack for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
+
+## 데이터베이스 마이그레이션
+
+Entity Framework 도구를 설치합니다.
+
+```text
+dotnet tool install dotnet-ef --global
+```
+
+Orders 서비스 데이터베이스를 마이그레이션 합니다.
+
+```text
+dotnet ef database update --project .\ShopPlatform\Orders\Orders.Api\
+```
+
+Sellers 서비스 데이터베이스를 마이그레이션 합니다.
+
+```text
+dotnet ef database update --project .\ShopPlatform\Sellers\Sellers.Sql\ --startup-project .\ShopPlatform\Sellers\Sellers.Api\
+```
