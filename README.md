@@ -10,7 +10,7 @@ TDD 또는 강의와 관련된 질문과 토론을 위해 Discord 서버를 만�
 
 ## 세션 별 코드
 
-태그를 통해 실습이 포함된 각 세션 별 실습 진행에 기반이되는 코드와 실습이 완료된 코드를 볼 수 있습니다.
+태그를 통해 실습이 포함된 각 세션 별 실습 진행에 기반이되는 코드를 볼 수 있습니다.
 
 [홈으로](../../)
 
@@ -36,6 +36,8 @@ TDD 또는 강의와 관련된 질문과 토론을 위해 Discord 서버를 만�
 | 5. 모델 확장 | [`3-5`](../../tree/3-5) |
 
 ## 개발 환경
+
+예제 코드를 실행하고 실습하기 위해 다음 도구들이 설치되어 있어야 합니다.
 
 ### Docker
 
@@ -86,7 +88,15 @@ https://dotnet.microsoft.com/en-us/download/dotnet/6.0
 - [C# for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
 - [Extension Pack for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
 
-## 데이터베이스 마이그레이션
+## 응용프로그램 실행
+
+Mac과 Windows에서 예제 응용프로그램을 실행하는 방법을 설명합니다.
+
+> 먼저 '개발 환경' 섹션을 참고해 PostgreSQL 서버와 Azurite가 구동시키고, JDK 17, Gradle, .NET 6.0을 설치해주세요.
+
+> 설명된 모든 CLI 명령 실행은 코드 저장소 루트 디렉터리가 기준입니다. 다른 디렉터리에서 명령을 실행하려면 명령 인자를 수정해야 합니다.
+
+### 데이터베이스 마이그레이션
 
 Entity Framework 도구를 설치합니다.
 
@@ -97,11 +107,45 @@ dotnet tool install dotnet-ef --global
 Orders 서비스 데이터베이스를 마이그레이션 합니다.
 
 ```text
-dotnet ef database update --project .\ShopPlatform\Orders\Orders.Api\
+dotnet ef database update --project ./ShopPlatform/Orders/Orders.Api/
 ```
 
 Sellers 서비스 데이터베이스를 마이그레이션 합니다.
 
 ```text
-dotnet ef database update --project .\ShopPlatform\Sellers\Sellers.Sql\ --startup-project .\ShopPlatform\Sellers\Sellers.Api\
+dotnet ef database update --project ./ShopPlatform/Sellers/Sellers.Sql/ --startup-project ./ShopPlatform/Sellers/Sellers.Api/
 ```
+
+### Orders 서비스 실행
+
+Orders API 응용프로그램을 구동합니다.
+
+```text
+dotnet run --project ./ShopPlatform/Orders/Orders.Api/
+```
+
+Orders API Swagger 문서에 접속합니다.
+
+http://localhost:5094/swagger/index.html
+
+### Sellers 서비스 실행
+
+Sellers API 응용프로그램을 구동합니다.
+
+```text
+dotnet run --project ./ShopPlatform/Sellers/Sellers.Api/
+```
+
+Sellers API Swagger 문서에 접속합니다.
+
+http://localhost:5232/swagger/index.html
+
+### Accounting 서비스 실행
+
+```text
+./ShopPlatform/gradlew bootRun -p ./ShopPlatform/
+```
+
+Accounting API Swagger 문서에 접속합니다.
+
+http://localhost:1579/swagger-ui/index.html
