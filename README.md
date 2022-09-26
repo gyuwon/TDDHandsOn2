@@ -88,6 +88,10 @@ https://dotnet.microsoft.com/en-us/download/dotnet/6.0
 - [C# for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
 - [Extension Pack for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
 
+### 데이터베이스 클라이언트
+
+- [pgAdmin 4](https://www.pgadmin.org/download/)
+
 ## 응용프로그램 실행
 
 Mac과 Windows에서 예제 응용프로그램을 실행하는 방법을 설명합니다.
